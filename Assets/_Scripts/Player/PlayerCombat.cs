@@ -19,9 +19,6 @@ namespace TowerBreaker.Player
             inventory  = GetComponent<InventoryManager>();
         }
 
-        /// <summary>
-        /// 현재 콤보 단계에 맞는 공격 판정을 발동한다.
-        /// </summary>
         public void ExecuteAttack(int comboStep)
         {
             // TODO: hitDetection으로 범위 내 적 탐색
@@ -32,16 +29,27 @@ namespace TowerBreaker.Player
 
         public float GetAttackDamage()
         {
-            // TODO: stats.attack + 장착 무기의 damageMultiplier 합산 반환
-            float baseDmg = controller.stats.attack;
-            WeaponDataSO weapon = inventory?.GetEquippedWeapon();
-            float multiplier = weapon != null ? weapon.damageMultiplier : 1f;
+            float baseDmg    = controller.stats.attack;
+            ItemDataSO weapon = inventory?.GetEquippedWeapon();
+            float multiplier  = weapon != null ? weapon.damageMultiplier : 1f;
             return baseDmg * multiplier;
+        }
+
+        public float GetDefenseBonus()
+        {
+            ItemDataSO armor = inventory?.GetEquippedArmor();
+            return armor?.defenseBonus ?? 0f;
+        }
+
+        public float GetMoveSpeedBonus()
+        {
+            ItemDataSO shoes = inventory?.GetEquippedShoes();
+            return shoes?.moveSpeedBonus ?? 0f;
         }
 
         public void ApplyBlock()
         {
-            // TODO: 방패 데이터 읽어 블록 판정 처리 (blockWindowDuration 내 피격 감소)
+            // TODO: 방패 → Accessory 장착 아이템 기반 블록 판정 처리
         }
     }
 }

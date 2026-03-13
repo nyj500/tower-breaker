@@ -28,8 +28,9 @@ namespace TowerBreaker.Core
             // TODO: 초기 상태 설정, 로비 UI 활성화
         }
 
-        public void StartBattle()
+        public void GoToWorld()
         {
+            // TODO: 로비에서 월드맵으로 이동, 월드맵 UI 활성화
             // TODO: 상태를 Battle로 전환, StageManager.StartStage() 호출
             ChangeState(GameState.Battle);
         }
