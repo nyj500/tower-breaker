@@ -1,0 +1,10 @@
+namespace TowerBreaker.Enemy
+{
+    public interface IEnemyState
+    {
+        void Enter();
+        void Exit();
+        void Update();
+        void FixedUpdate();
+    }
+}
