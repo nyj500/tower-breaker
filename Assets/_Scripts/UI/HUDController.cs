@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using TowerBreaker.Core;
 using TowerBreaker.Player;
+using TowerBreaker.Stage;
 
 namespace TowerBreaker.UI
 {
@@ -24,7 +24,7 @@ namespace TowerBreaker.UI
         {
             // TODO: EventBus 구독 (HpChangedEvent, SkillReadyEvent 등)
             player = FindFirstObjectByType<PlayerController>();
-            UpdateFloorText(StageManager.Instance?.CurrentFloor ?? 0);
+            UpdateFloorText(FloorManager.Instance?.CurrentFloor ?? 0);
         }
 
         private void Update()

@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -137,19 +137,19 @@ TextureImporter:
       name: Dead-Sheet_0
       rect:
         serializedVersion: 2
-        x: 10
+        x: 0
         y: 0
-        width: 29
-        height: 25
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c6e397f24af0e32f0800000000000000
+      spriteID: d430d4f31d76e417ba703335ac27f0bb
       internalID: -991337670129402260
       vertices: []
       indices: 
@@ -159,19 +159,19 @@ TextureImporter:
       name: Dead-Sheet_1
       rect:
         serializedVersion: 2
-        x: 55
+        x: 48
         y: 0
-        width: 32
-        height: 21
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cd278427cef828fd0800000000000000
+      spriteID: 9592f7e5df90a4673b5ccb932f3f9c49
       internalID: -2341150610586832164
       vertices: []
       indices: 
@@ -181,19 +181,19 @@ TextureImporter:
       name: Dead-Sheet_2
       rect:
         serializedVersion: 2
-        x: 101
+        x: 96
         y: 0
-        width: 34
-        height: 21
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1e0512d54de0f5bf0800000000000000
+      spriteID: 98823c0ae0aba4785a3f2cc3dfe06ca5
       internalID: -333531542143807263
       vertices: []
       indices: 
@@ -203,19 +203,19 @@ TextureImporter:
       name: Dead-Sheet_3
       rect:
         serializedVersion: 2
-        x: 149
+        x: 144
         y: 0
-        width: 34
-        height: 21
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ad2ec7cc377b748d0800000000000000
+      spriteID: 2c1c15cae0ede4fecb1f4e52a06bf159
       internalID: -2862117330190802214
       vertices: []
       indices: 
@@ -225,19 +225,19 @@ TextureImporter:
       name: Dead-Sheet_4
       rect:
         serializedVersion: 2
-        x: 197
+        x: 192
         y: 0
-        width: 34
-        height: 21
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 80d5666343faf8d90800000000000000
+      spriteID: 44100ef8af37848f4be512d08d188267
       internalID: -7093258249299403512
       vertices: []
       indices: 
@@ -247,19 +247,19 @@ TextureImporter:
       name: Dead-Sheet_5
       rect:
         serializedVersion: 2
-        x: 245
+        x: 240
         y: 0
-        width: 34
-        height: 21
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: decbbff913c3dad10800000000000000
+      spriteID: c3d9e1dc86f6744739769826acd0d367
       internalID: 2138431581905992941
       vertices: []
       indices: 
@@ -269,19 +269,19 @@ TextureImporter:
       name: Dead-Sheet_6
       rect:
         serializedVersion: 2
-        x: 293
+        x: 288
         y: 0
-        width: 34
-        height: 21
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bf46c0e26833d0170800000000000000
+      spriteID: c86333dbf64f747d9a4baed267c2a984
       internalID: 8146223952374293755
       vertices: []
       indices: 
@@ -291,19 +291,19 @@ TextureImporter:
       name: Dead-Sheet_7
       rect:
         serializedVersion: 2
-        x: 341
+        x: 336
         y: 0
-        width: 34
-        height: 21
+        width: 48
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a2624ccc217d23740800000000000000
+      spriteID: b6eb936c8097b48cea4eaac314734c9a
       internalID: 5130399401273206314
       vertices: []
       indices: 
@@ -313,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5fd5bde23d79e4dc9832f9c59b4ac4b8
     internalID: 0
     vertices: []
     indices: 
@@ -321,7 +321,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Dead-Sheet_0: -991337670129402260
       Dead-Sheet_1: -2341150610586832164

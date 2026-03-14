@@ -1,6 +1,6 @@
 using UnityEngine;
-using TowerBreaker.Core;
 using TowerBreaker.Data;
+using TowerBreaker.Stage;
 
 namespace TowerBreaker.Enemy
 {
@@ -17,26 +17,53 @@ namespace TowerBreaker.Enemy
 
         // 런타임 스탯
         protected float currentHp;
-        protected bool  isDead;
+        protected bool isDead;
+        protected bool isActive;
+        protected bool getDamaged;
 
-        protected Rigidbody2D     rb;
+        public float CurrentHp => currentHp;
+        public bool IsDead => isDead;
+        public bool IsActive => isActive;
+        public bool GetDamaged
+        {
+            get => getDamaged;
+            set => getDamaged = value;
+        }
+
+        public GameObject PoolPrefab { get; set; } // ObjectPoolManager 반환용
+
+        public void SetActive(bool active)
+        {
+            isActive = active;
+            animator?.SetBool(HashWalk, active);
+        }
+
+        protected Rigidbody2D rb;
+        protected Animator animator;
         protected EnemyStateMachine fsm;
-        protected Transform       playerTransform;
+        protected Transform playerTransform;
+
+        private static readonly int HashWalk = Animator.StringToHash("Walk");
 
         protected virtual void Awake()
         {
-            rb  = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
+            animator = GetComponentInChildren<Animator>();
             fsm = GetComponent<EnemyStateMachine>();
         }
 
         protected virtual void Start()
         {
-            // TODO: 플레이어 오브젝트 찾기 (태그 또는 GameManager 참조)
-            currentHp = data.maxHp;
             playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
-
-            StageManager.Instance?.RegisterEnemy();
             InitFSM();
+        }
+
+        public virtual void Reset()
+        {
+            currentHp = data.maxHp;
+            isDead    = false;
+            isActive  = false;
+            FloorManager.Instance?.RegisterEnemy();
         }
 
         /// <summary>
@@ -70,7 +97,7 @@ namespace TowerBreaker.Enemy
         {
             // TODO: Die 상태 전환, 드롭 아이템 스폰, ObjectPool 반환
             OnDeath();
-            StageManager.Instance?.OnEnemyDied();
+            FloorManager.Instance?.OnEnemyDied();
         }
 
         /// <summary>
@@ -80,7 +107,7 @@ namespace TowerBreaker.Enemy
 
         protected void MoveToward(Vector2 target, float speed)
         {
-            // TODO: 장애물 회피 없이 직선 이동 (NavMesh 연동 확장 가능)
+            // TODO: 직선 이동
             Vector2 dir = ((Vector2)target - (Vector2)transform.position).normalized;
             rb.linearVelocity = dir * speed;
         }

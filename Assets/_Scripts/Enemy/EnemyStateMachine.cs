@@ -13,7 +13,7 @@ namespace TowerBreaker.Enemy
         {
             // TODO: 현재 상태 Exit → 새 상태 Enter
             currentState?.Exit();
-            currentState   = newState;
+            currentState = newState;
             CurrentStateType = type;
             currentState?.Enter();
         }

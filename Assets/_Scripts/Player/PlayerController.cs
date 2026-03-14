@@ -1,5 +1,9 @@
 using UnityEngine;
 using TowerBreaker.Data;
+using TowerBreaker.Core;
+using TowerBreaker.Enemy;
+using TowerBreaker.Player.States;
+using System;
 
 namespace TowerBreaker.Player
 {
@@ -8,54 +12,69 @@ namespace TowerBreaker.Player
         [Header("Data")]
         [SerializeField] public CharacterStatsSO stats;
 
-        [Header("References")]
-        [SerializeField] private Rigidbody2D rb;
+        private Rigidbody2D rb;
 
         public PlayerStateMachine StateMachine { get; private set; }
         public PlayerCombat Combat { get; private set; }
         public PlayerAnimation Anim { get; private set; }
 
-        // 입력 캐시 (TouchInputUI에서 갱신)
-        public Vector2 MoveInput { get; set; }
+        // 입력 캐시
         public bool AttackPressed { get; set; }
         public bool DashPressed { get; set; }
         public bool BlockPressed { get; set; }
-        public bool SkillPressed { get; set; }
+        public bool Skill1Pressed { get; set; }
+        public bool Skill2Pressed { get; set; }
+        public bool Skill3Pressed { get; set; }
 
         // 런타임 스탯
-        public float CurrentHp { get; private set; }
+        public int CurrentHp { get; private set; }
+        public int MaxHp => stats.maxHp;
         public bool IsDead { get; private set; }
+        public bool IsFacingRight { get; private set; } = true;
+        public bool IsEnemyColliding { get; set; } = false;
 
         private void Awake()
         {
             StateMachine = GetComponent<PlayerStateMachine>();
             Combat = GetComponent<PlayerCombat>();
-            Anim   = GetComponent<PlayerAnimation>();
-            rb     = rb != null ? rb : GetComponent<Rigidbody2D>();
+            Anim = GetComponent<PlayerAnimation>();
+            rb = GetComponent<Rigidbody2D>();
 
             CurrentHp = stats.maxHp;
         }
 
-        private void Update()
+        public void DashMove(float distance, float duration)
         {
-            // TODO: 터치 입력을 각 bool/Vector2 필드에 매핑 (TouchInputUI에서 직접 주입받도록 설계)
+            float speed = distance / duration;
+            float dir = IsFacingRight ? 1f : -1f;
+            rb.linearVelocity = new Vector2(dir * speed, 0f);
         }
 
-        public void Move(Vector2 direction)
+        public void StopMove()
         {
-            // TODO: rb.velocity를 direction * moveSpeed로 설정
-            rb.linearVelocity = direction * stats.moveSpeed;
+            rb.linearVelocity = Vector2.zero;
         }
 
-        public void TakeDamage(float damage)
+        public void SetFacingDirection(bool facingRight)
         {
-            // TODO: 방어력 적용 후 HP 감소, 사망 판정
+            if (IsFacingRight == facingRight) return;
+            IsFacingRight = facingRight;
+            transform.localScale = new Vector3(facingRight ? 1f : -1f, 1f, 1f);
+        }
+
+        /// <summary>
+        /// 카메라 벽 충돌 시 호출 - HP 1 감소
+        /// </summary>
+        public void TakeWallDamage()
+        {
             if (IsDead) return;
 
-            CurrentHp -= damage;
-            if (CurrentHp <= 0f)
+            CurrentHp -= 1;
+            EventBus.Publish(new PlayerHpChangedEvent { CurrentHp = CurrentHp, MaxHp = MaxHp });
+
+            if (CurrentHp <= 0)
             {
-                CurrentHp = 0f;
+                CurrentHp = 0;
                 IsDead = true;
                 StateMachine.ChangeState(StateMachine.Die);
             }
@@ -63,10 +82,37 @@ namespace TowerBreaker.Player
             {
                 StateMachine.ChangeState(StateMachine.Hit);
             }
+        }
 
-            // TODO: EventBus를 통해 HpChangedEvent 발행
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var enemy = collision.gameObject.GetComponent<EnemyBase>();
+            if (enemy == null) return;
+
+            IsEnemyColliding = true;
+            // 대쉬 중 살아있는 적과 충돌 시 멈춤
+            var state = StateMachine.CurrentState;
+            if (state is DashState || state is Skill1State)
+            {
+                if (!enemy.IsDead)
+                {
+                    StopMove();
+                    StateMachine.ChangeState(StateMachine.Idle);
+                }
+            }
+        }
+
+        internal void DashMove(object dashDistance, object duration)
+        {
+            throw new NotImplementedException();
         }
 
         public Rigidbody2D Rb => rb;
+    }
+
+    public struct PlayerHpChangedEvent
+    {
+        public int CurrentHp;
+        public int MaxHp;
     }
 }

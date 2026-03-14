@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ed6153503474a77b52c5f1298aa3fb, type: 3}
+  m_Name: CharacterStats
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Data.CharacterStatsSO
+  maxHp: 3
+  attack: 5
+  attackRange: 1.5
+  attackCooldown: 0.5
+  dashDistance: 3
+  dashDuration: 0.2
+  dashCooldown: 1.5
+  dashInvincibleDuration: 0.2
+  hitStaggerDuration: 0.3

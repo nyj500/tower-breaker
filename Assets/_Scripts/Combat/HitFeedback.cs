@@ -6,6 +6,10 @@ namespace TowerBreaker.Combat
 {
     public class HitFeedback : MonoBehaviour
     {
+        [Header("VFX Prefabs")]
+        [SerializeField] private GameObject vfxHitLight;
+        [SerializeField] private GameObject vfxHitHeavy;
+
         [Header("Presets")]
         [SerializeField] private float lightHitStopDuration   = 0.04f;
         [SerializeField] private float heavyHitStopDuration   = 0.1f;
@@ -18,7 +22,7 @@ namespace TowerBreaker.Combat
             // TODO: 가벼운 타격 피드백 - 짧은 히트스톱, 약한 카메라 흔들림, 타격 VFX
             DoHitStop(lightHitStopDuration);
             DoShake(shakeDuration * 0.5f, lightShakeMagnitude);
-            SpawnVFX("VFX_HitLight", position);
+            SpawnVFX(vfxHitLight, position);
         }
 
         public void PlayHeavyHit(Vector3 position)
@@ -26,7 +30,7 @@ namespace TowerBreaker.Combat
             // TODO: 강한 타격 피드백 - 긴 히트스톱, 강한 카메라 흔들림, 타격 VFX
             DoHitStop(heavyHitStopDuration);
             DoShake(shakeDuration, heavyShakeMagnitude);
-            SpawnVFX("VFX_HitHeavy", position);
+            SpawnVFX(vfxHitHeavy, position);
         }
 
         public void PlaySkillHit(Vector3 position)
@@ -46,10 +50,10 @@ namespace TowerBreaker.Combat
             CameraShaker.Instance?.Shake(duration, magnitude);
         }
 
-        private void SpawnVFX(string key, Vector3 position)
+        private void SpawnVFX(GameObject prefab, Vector3 position)
         {
-            // TODO: ObjectPoolManager.Get(key, position, Quaternion.identity)
-            ObjectPoolManager.Instance?.Get(key, position, Quaternion.identity);
+            if (prefab == null) return;
+            ObjectPoolManager.Instance?.Get(prefab, position, Quaternion.identity);
         }
     }
 }

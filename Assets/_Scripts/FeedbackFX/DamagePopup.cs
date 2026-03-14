@@ -22,7 +22,7 @@ namespace TowerBreaker.FeedbackFX
         [SerializeField] private Color normalColor   = Color.white;
         [SerializeField] private Color criticalColor = Color.yellow;
 
-        private string poolKey = "DamagePopup";
+        [SerializeField] private GameObject prefab; // 자기 자신의 프리팹 참조
 
         /// <summary>
         /// 팝업을 초기화하고 플로팅 애니메이션을 시작한다.
@@ -58,7 +58,7 @@ namespace TowerBreaker.FeedbackFX
             }
 
             // TODO: ObjectPoolManager에 반환
-            ObjectPoolManager.Instance?.Return(poolKey, gameObject);
+            ObjectPoolManager.Instance?.Return(prefab, gameObject);
         }
     }
 }

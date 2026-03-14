@@ -19,7 +19,7 @@ namespace TowerBreaker.Player.States
         {
             // TODO: 경직 시작 - 이동 정지, Hit 애니메이션 재생
             staggerTimer = 0f;
-            ctrl.Move(Vector2.zero);
+            ctrl.StopMove();
             ctrl.Anim.PlayHit();
         }
 

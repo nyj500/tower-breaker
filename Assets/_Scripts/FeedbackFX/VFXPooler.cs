@@ -10,7 +10,7 @@ namespace TowerBreaker.FeedbackFX
     /// </summary>
     public class VFXPooler : MonoBehaviour
     {
-        [SerializeField] private string poolKey;
+        [SerializeField] private GameObject prefab; // 자기 자신의 프리팹 참조
         [SerializeField] private ParticleSystem particle;
 
         private void Awake()
@@ -33,7 +33,7 @@ namespace TowerBreaker.FeedbackFX
 
             yield return new WaitUntil(() => !particle.IsAlive(true));
 
-            ObjectPoolManager.Instance?.Return(poolKey, gameObject);
+            ObjectPoolManager.Instance?.Return(prefab, gameObject);
         }
 
         private void OnDisable()
@@ -45,6 +45,6 @@ namespace TowerBreaker.FeedbackFX
         /// <summary>
         /// 외부에서 풀 키를 설정할 수 있도록 한다.
         /// </summary>
-        public void SetPoolKey(string key) => poolKey = key;
+        public void SetPrefab(GameObject p) => prefab = p;
     }
 }

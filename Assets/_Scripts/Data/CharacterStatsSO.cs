@@ -6,10 +6,8 @@ namespace TowerBreaker.Data
     public class CharacterStatsSO : ScriptableObject
     {
         [Header("Base Stats")]
-        public float maxHp = 100f;
+        public int maxHp = 3;
         public float attack = 15f;
-        public float defense = 5f;
-        public float moveSpeed = 4f;
 
         [Header("Combat")]
         public float attackRange = 1.5f;

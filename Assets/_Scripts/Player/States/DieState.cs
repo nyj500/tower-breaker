@@ -17,8 +17,8 @@ namespace TowerBreaker.Player.States
         public void Enter()
         {
             // TODO: 사망 애니메이션 재생, 입력 비활성화
-            ctrl.Move(Vector2.zero);
-            ctrl.Anim.PlayDie();
+            ctrl.StopMove();
+            ctrl.Anim.PlayDead();
 
             // TODO: 일정 시간 후 GameManager.OnPlayerDead() 호출 (코루틴 or invoke)
             GameManager.Instance.OnPlayerDead();

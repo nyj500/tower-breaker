@@ -30,7 +30,7 @@ namespace TowerBreaker.Equipment
             // TODO: ObjectPoolManager.Get("ItemPickup", position, ...) 또는 Instantiate
             //       드롭된 아이템 GO에 LootEntry 데이터 주입
             var obj = ObjectPoolManager.Instance != null
-                ? ObjectPoolManager.Instance.Get("ItemPickup", position, Quaternion.identity)
+                ? ObjectPoolManager.Instance.Get(itemPickupPrefab, position, Quaternion.identity)
                 : Instantiate(itemPickupPrefab, position, Quaternion.identity);
 
             // TODO: obj.GetComponent<ItemPickup>().Setup(entry);

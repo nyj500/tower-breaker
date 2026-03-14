@@ -1,55 +1,96 @@
 using UnityEngine;
-using TowerBreaker.Combat;
+using System.Collections.Generic;
 using TowerBreaker.Data;
 using TowerBreaker.Equipment;
+using TowerBreaker.Enemy;
+using TowerBreaker.Player.States;
 
 namespace TowerBreaker.Player
 {
     public class PlayerCombat : MonoBehaviour
     {
-        [SerializeField] private HitDetection hitDetection;
-        [SerializeField] private LayerMask enemyLayer;
+        [Header("Hitboxes")]
+        [SerializeField]
+        private BoxCollider2D attackHitBox;
+        [SerializeField]
+        private BoxCollider2D skill1HitBox;
+        [SerializeField]
+        private BoxCollider2D skill2HitBox;
+        [SerializeField]
+        private BoxCollider2D skill3HitBox;
+        [SerializeField] 
+        private BoxCollider2D blockHitBox;
 
         private PlayerController controller;
         private InventoryManager inventory;
+        private List<Collider2D> results = new();
 
         private void Awake()
         {
             controller = GetComponent<PlayerController>();
-            inventory  = GetComponent<InventoryManager>();
-        }
-
-        public void ExecuteAttack(int comboStep)
-        {
-            // TODO: hitDetection으로 범위 내 적 탐색
-            // TODO: DamageCalculator.Calculate()로 최종 데미지 산출
-            // TODO: 적에게 ApplyDamage() 호출
-            // TODO: HitFeedback 트리거 (VFX, SFX, 히트스톱)
+            inventory = GetComponent<InventoryManager>();
         }
 
         public float GetAttackDamage()
         {
-            float baseDmg    = controller.stats.attack;
+            float baseDmg = controller.stats.attack;
             ItemDataSO weapon = inventory?.GetEquippedWeapon();
-            float multiplier  = weapon != null ? weapon.damageMultiplier : 1f;
+            float multiplier = weapon != null ? weapon.damageMultiplier : 1f;
             return baseDmg * multiplier;
         }
 
-        public float GetDefenseBonus()
+        private BoxCollider2D GetHitBox(IPlayerState state)
         {
-            ItemDataSO armor = inventory?.GetEquippedArmor();
-            return armor?.defenseBonus ?? 0f;
+            switch (state)
+            {
+                case AttackState:
+                    return attackHitBox;
+
+                case Skill1State:
+                    return skill1HitBox;
+
+                case Skill2State:
+                    return skill2HitBox;
+
+                case Skill3State:
+                    return skill3HitBox;
+                case BlockState:
+                    return blockHitBox;
+
+                default:
+                    return null;
+            }
         }
 
-        public float GetMoveSpeedBonus()
+        public void EnableHitBox(IPlayerState state)
         {
-            ItemDataSO shoes = inventory?.GetEquippedShoes();
-            return shoes?.moveSpeedBonus ?? 0f;
+            GetHitBox(state).enabled = true;
         }
 
-        public void ApplyBlock()
+        public void DisableHitBox(IPlayerState state)
         {
-            // TODO: 방패 → Accessory 장착 아이템 기반 블록 판정 처리
+            GetHitBox(state).enabled = false;
+        }
+
+        public float GetDamageMultiplier(HitBox.HitType type)
+        {
+            switch (type)
+            {
+                case HitBox.HitType.Attack:
+                    return 1f;
+
+                case HitBox.HitType.Skill1:
+                    return 3f;
+
+                case HitBox.HitType.Skill2:
+                    return 5f;
+
+                case HitBox.HitType.Skill3:
+                    return 2f;
+            
+                default:
+                    return 1f;
+            }
         }
     }
 }
