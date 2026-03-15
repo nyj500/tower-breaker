@@ -46,7 +46,7 @@ namespace TowerBreaker.Combat
             if (!hitEnemies.Add(enemy)) return;
 
             enemy.TakeDamage(damage);
-            feedback?.PlayHeavyHit(transform.position);
+            feedback?.PlayLightHit(transform.position);
         }
     }
 }

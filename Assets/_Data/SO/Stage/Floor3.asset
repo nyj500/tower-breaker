@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Data.FloorDataSO
   enemies:
   - prefab: {fileID: 8104022795075489229, guid: ab571fba740a042f696697030589477c, type: 3}
-    count: 6
+    count: 2
+  - prefab: {fileID: 8104022795075489229, guid: 1e90ac171a1e248888a07ba9b4f54f00, type: 3}
+    count: 1
   - prefab: {fileID: 775305726317360698, guid: d47527e479606420c8f6082e7d7545bb, type: 3}
     count: 2

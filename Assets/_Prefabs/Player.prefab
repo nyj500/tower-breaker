@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 4857310236803820649}
   - component: {fileID: 4242534045654766089}
   - component: {fileID: 2058515425999177866}
+  - component: {fileID: 4618028718045797981}
   m_Layer: 6
   m_Name: Player Renderer
   m_TagString: Untagged
@@ -212,6 +213,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4618028718045797981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1700097439748403508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dd0727dd7ae4d2f9cce4d097c55db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.FeedbackFX.AnimationSoundPlayer
+  volumeScale: 0.625
 --- !u!1 &4356742510112006487
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,6 +518,7 @@ GameObject:
   - component: {fileID: 5048368948995277118}
   - component: {fileID: 7067739846689840150}
   - component: {fileID: 7916626228023810505}
+  - component: {fileID: 5363146003287884745}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -661,6 +676,19 @@ MonoBehaviour:
   lightShakeMagnitude: 0.05
   heavyShakeMagnitude: 0.15
   shakeDuration: 0.2
+--- !u!114 &5363146003287884745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5886784842934648195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac0c04105661c41b38a95fda26b13a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Player.CameraBoundaryDetector
+  wallPushForce: 5
 --- !u!1001 &910587182541196470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -672,6 +700,10 @@ PrefabInstance:
     - target: {fileID: 7958659349363786812, guid: 332865a5642c942f08c6647ac8e37fd0, type: 3}
       propertyPath: m_Name
       value: VFX_Skill1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7958659349363786812, guid: 332865a5642c942f08c6647ac8e37fd0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9128489208114914265, guid: 332865a5642c942f08c6647ac8e37fd0, type: 3}
       propertyPath: m_LocalPosition.x

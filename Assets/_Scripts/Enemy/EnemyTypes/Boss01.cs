@@ -1,80 +1,60 @@
-using System.Collections;
 using UnityEngine;
-using TowerBreaker.Enemy;
+using System.Collections;
 using TowerBreaker.Core;
-
 namespace TowerBreaker.Enemy.EnemyTypes
 {
-    /// <summary>
-    /// 보스 1: 돌진 + 범위 공격 패턴.
-    /// Phase 1 - 돌진 반복
-    /// Phase 2 - 돌진 + 범위 충격파
-    /// </summary>
-    public class Boss01 : BossController
+    public class Boss01 : EnemyBase
     {
-        [Header("Boss01 Config")]
-        [SerializeField] private float chargeSpeed = 10f;
-        [SerializeField] private float chargeWindupTime = 0.8f;
-        [SerializeField] private float aoeRadius = 3f;
-        [SerializeField] private LayerMask playerLayer;
+        [Header("Knockback Attack")]
+        [SerializeField] private float knockbackInterval = 3f;
+        [SerializeField] private float attackAnimDuration = 1f;
+        [SerializeField] private GameObject attackVFX;
 
-        private bool isActing = false;
+        private static readonly int HashAttack = Animator.StringToHash("Attack");
+        private static readonly int HashWalk = Animator.StringToHash("Walk");
 
-        protected override void InitFSM()
+        private float knockbackTimer;
+        private bool isAttacking;
+
+        protected override void InitFSM() { }
+
+        protected override void Start()
         {
-            // TODO: Idle → Chase → 패턴 선택 루프
+            base.Start();
+            knockbackTimer = knockbackInterval;
         }
 
         private void Update()
         {
-            if (isDead || isActing) return;
+            if (isDead || !isActive || IsKnockedBack || isAttacking) return;
 
-            if (IsInRange(data.detectionRange))
-                StartCoroutine(PhasePattern());
+            rb.linearVelocity = Vector2.left * data.moveSpeed;
+
+            knockbackTimer -= Time.deltaTime;
+            if (knockbackTimer <= 0f)
+            {
+                knockbackTimer = knockbackInterval;
+                StartCoroutine(AttackRoutine());
+            }
         }
 
-        private IEnumerator PhasePattern()
+        private IEnumerator AttackRoutine()
         {
-            isActing = true;
+            isAttacking = true;
+            rb.linearVelocity = Vector2.zero;
 
-            if (currentPhase == 1)
-                yield return StartCoroutine(ChargeAttack());
-            else
-                yield return StartCoroutine(ChargeWithAoE());
+            animator.SetTrigger(HashAttack);
+            if (attackVFX != null) { attackVFX.SetActive(false); attackVFX.SetActive(true); }
+            yield return new WaitForSeconds(attackAnimDuration);
 
-            yield return new WaitForSeconds(1.5f);
-            isActing = false;
-        }
-
-        private IEnumerator ChargeAttack()
-        {
-            // TODO: 플레이어 방향 조준 → windup 대기 → 고속 돌진
-            yield return new WaitForSeconds(chargeWindupTime);
-            // TODO: 돌진 이동 처리
-        }
-
-        private IEnumerator ChargeWithAoE()
-        {
-            // TODO: ChargeAttack 후 착지 지점에서 AoE 충격파 발동
-            yield return StartCoroutine(ChargeAttack());
-            DoAoE();
-        }
-
-        private void DoAoE()
-        {
-            // TODO: aoeRadius 내 플레이어에게 data.attack * 1.5f 데미지
-            //       CameraShaker.Instance.Shake() 호출
-            CameraShaker.Instance?.Shake(0.4f, 0.3f);
-        }
-
-        protected override void EnterNextPhase(int phase)
-        {
-            // TODO: 페이즈 전환 연출 (플래시, 대사 등)
+            animator.SetBool(HashWalk, true);
+            isAttacking = false;
         }
 
         protected override void OnDeath()
         {
-            // TODO: 보스 사망 연출, 보상 드롭
+            rb.linearVelocity = Vector2.zero;
+            ObjectPoolManager.Instance.Return(PoolPrefab, gameObject);
         }
     }
 }

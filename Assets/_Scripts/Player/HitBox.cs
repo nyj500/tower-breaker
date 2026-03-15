@@ -37,7 +37,7 @@ namespace TowerBreaker.Player
                 float multiplier = combat.GetDamageMultiplier(type);
                 enemy.TakeDamage(combat.GetAttackDamage() * multiplier);
 
-                bool isHeavy = type == HitType.Skill1 || type == HitType.Skill2 || type == HitType.Skill3;
+                bool isHeavy = type == HitType.Skill1 || type == HitType.Skill2;
                 if (isHeavy)
                     feedback?.PlayHeavyHit(col.transform.position);
                 else

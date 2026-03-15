@@ -20,6 +20,9 @@ namespace TowerBreaker.UI
         [Header("Navigation")]
         [SerializeField] private Button returnToMainButton;
 
+        [Header("SFX")]
+        [SerializeField] private AudioClip buttonSFX;
+
         private PlayerController player;
 
         private void Awake()
@@ -29,13 +32,15 @@ namespace TowerBreaker.UI
 
         private void Start()
         {
-            attackButton?.onClick.AddListener(() => player.AttackPressed = true);
-            dashButton?.onClick.AddListener(() => player.DashPressed = true);
-            blockButton?.onClick.AddListener(() => player.BlockPressed = true);
-            skill1Button?.onClick.AddListener(() => player.Skill1Pressed = true);
-            skill2Button?.onClick.AddListener(() => player.Skill2Pressed = true);
-            skill3Button?.onClick.AddListener(() => player.Skill3Pressed = true);
-            returnToMainButton?.onClick.AddListener(() => GameManager.Instance.ReturnToLobby());
+            attackButton?.onClick.AddListener(() => { PlayButtonSFX(); player.AttackPressed = true; });
+            dashButton?.onClick.AddListener(() => { PlayButtonSFX(); player.DashPressed = true; });
+            blockButton?.onClick.AddListener(() => { PlayButtonSFX(); player.BlockPressed = true; });
+            skill1Button?.onClick.AddListener(() => { PlayButtonSFX(); player.Skill1Pressed = true; });
+            skill2Button?.onClick.AddListener(() => { PlayButtonSFX(); player.Skill2Pressed = true; });
+            skill3Button?.onClick.AddListener(() => { PlayButtonSFX(); player.Skill3Pressed = true; });
+            returnToMainButton?.onClick.AddListener(() => { PlayButtonSFX(); GameManager.Instance.ReturnToLobby(); });
         }
+
+        private void PlayButtonSFX() => SoundManager.Instance?.PlaySFX(buttonSFX);
     }
 }

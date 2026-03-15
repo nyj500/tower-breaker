@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TowerBreaker.Data;
 using TowerBreaker.Equipment;
+using TowerBreaker.Core;
 
 namespace TowerBreaker.Stage
 {
@@ -9,6 +10,10 @@ namespace TowerBreaker.Stage
     {
         [Header("Loot")]
         [SerializeField] private LootTable lootTable;
+
+        [Header("SFX")]
+        [SerializeField] private AudioClip dropSFX;
+        [SerializeField] private AudioClip openSFX;
 
         [Header("Drop")]
         [SerializeField] private float startOffsetX = 3f;
@@ -35,12 +40,12 @@ namespace TowerBreaker.Stage
         {
             IsDropDone = false;
             IsOpenDone = false;
+            SoundManager.Instance?.PlaySFX(dropSFX);
             StartCoroutine(DropRoutine(playerPos));
         }
 
         private IEnumerator DropRoutine(Vector3 playerPos)
         {
-            // 시작 위치: 화면 오른쪽 위
             Vector3 pos = new Vector3(
                 playerPos.x + startOffsetX,
                 playerPos.y + startOffsetY,
@@ -51,7 +56,6 @@ namespace TowerBreaker.Stage
             float velX = throwForceX;
             float velY = throwForceY;
             float groundY = playerPos.y + groundOffsetY;
-
             int bounceCount = 0;
 
             while (true)
@@ -60,7 +64,6 @@ namespace TowerBreaker.Stage
                 pos.x += velX * Time.deltaTime;
                 pos.y += velY * Time.deltaTime;
 
-                // 바닥 충돌
                 if (pos.y <= groundY)
                 {
                     pos.y = groundY;
@@ -87,6 +90,7 @@ namespace TowerBreaker.Stage
         {
             DroppedItem = lootTable?.Roll()?.item;
             animator?.SetTrigger(HashOpen);
+            SoundManager.Instance?.PlaySFX(openSFX);
         }
 
         public void Hide()
@@ -94,7 +98,6 @@ namespace TowerBreaker.Stage
             gameObject.SetActive(false);
         }
 
-        // Animation Event: Open 애니메이션 마지막 프레임에서 호출
         public void OnOpenDone()
         {
             IsOpenDone = true;

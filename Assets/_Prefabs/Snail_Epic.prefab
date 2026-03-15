@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4101744805386165629}
   - component: {fileID: -9040640195659665366}
   - component: {fileID: 2665511587347006709}
+  - component: {fileID: -8825344466957495846}
   m_Layer: 7
   m_Name: Snail_Epic
   m_TagString: Untagged
@@ -209,6 +210,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Enemy.EnemyTypes.MeleeEnemy
   data: {fileID: 11400000, guid: b58c06c41eecc4808beca9e2e11730ac, type: 2}
   hitVFX: {fileID: 3943773463169363026}
+  hitSFX: {fileID: 8300000, guid: f17949fb1734f404f9652e75361a83f3, type: 3}
+--- !u!114 &-8825344466957495846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8829788454002280242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dd0727dd7ae4d2f9cce4d097c55db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.FeedbackFX.AnimationSoundPlayer
 --- !u!1001 &3712193572481255824
 PrefabInstance:
   m_ObjectHideFlags: 0

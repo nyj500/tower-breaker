@@ -11,7 +11,7 @@ namespace TowerBreaker.Player.States
         public override void Enter()
         {
             staggerTimer = 0f;
-            ctrl.StopMove();
+            if (!ctrl.IsKnockedBack) ctrl.StopMove();
             ctrl.Anim.PlayHit();
         }
 

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using TowerBreaker.Data;
+using TowerBreaker.Core;
 
 namespace TowerBreaker.UI
 {
@@ -11,6 +12,7 @@ namespace TowerBreaker.UI
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private TextMeshProUGUI itemCategoryText;
         [SerializeField] private TextMeshProUGUI itemDescriptionText;
+        [SerializeField] private AudioClip showSFX;
 
         private void Awake()
         {
@@ -27,6 +29,7 @@ namespace TowerBreaker.UI
             if (itemDescriptionText != null) itemDescriptionText.text = item.description;
 
             gameObject.SetActive(true);
+            SoundManager.Instance?.PlaySFX(showSFX);
         }
 
         public void Hide()

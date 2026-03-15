@@ -8,8 +8,8 @@ namespace TowerBreaker.Equipment
     {
         public static PlayerInventory Instance { get; private set; }
 
-        private readonly List<ItemDataSO> ownedItems = new();
-        private readonly Dictionary<ItemCategory, ItemDataSO> equippedItems = new();
+        private readonly List<OwnedItem> ownedItems = new();
+        private readonly Dictionary<ItemCategory, OwnedItem> equippedItems = new();
 
         public event System.Action OnInventoryChanged;
 
@@ -22,15 +22,15 @@ namespace TowerBreaker.Equipment
 
         public void AddItem(ItemDataSO item)
         {
-            if (item == null || ownedItems.Contains(item)) return;
-            ownedItems.Add(item);
+            if (item == null) return;
+            ownedItems.Add(new OwnedItem(item));
             OnInventoryChanged?.Invoke();
         }
 
-        public void Equip(ItemDataSO item)
+        public void Equip(OwnedItem item)
         {
             if (item == null || !ownedItems.Contains(item)) return;
-            equippedItems[item.category] = item;
+            equippedItems[item.data.category] = item;
             OnInventoryChanged?.Invoke();
         }
 
@@ -41,30 +41,30 @@ namespace TowerBreaker.Equipment
             OnInventoryChanged?.Invoke();
         }
 
-        public void ToggleEquip(ItemDataSO item)
+        public void ToggleEquip(OwnedItem item)
         {
             if (IsEquipped(item))
-                Unequip(item.category);
+                Unequip(item.data.category);
             else
                 Equip(item);
         }
 
-        public bool IsEquipped(ItemDataSO item)
+        public bool IsEquipped(OwnedItem item)
         {
-            return equippedItems.TryGetValue(item.category, out var equipped) && equipped == item;
+            return equippedItems.TryGetValue(item.data.category, out var equipped) && equipped.uid == item.uid;
         }
 
         public ItemDataSO GetEquipped(ItemCategory category)
         {
             equippedItems.TryGetValue(category, out var item);
-            return item;
+            return item?.data;
         }
 
-        public List<ItemDataSO> GetItemsByCategory(ItemCategory category)
+        public List<OwnedItem> GetItemsByCategory(ItemCategory category)
         {
-            return ownedItems.FindAll(i => i.category == category);
+            return ownedItems.FindAll(i => i.data.category == category);
         }
 
-        public IReadOnlyList<ItemDataSO> OwnedItems => ownedItems.AsReadOnly();
+        public IReadOnlyList<OwnedItem> OwnedItems => ownedItems.AsReadOnly();
     }
 }

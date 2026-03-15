@@ -13,13 +13,9 @@ MonoBehaviour:
   m_Name: BoarW_Boss
   m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Data.EnemyDataSO
   enemyName: Snail
-  maxHp: 80
+  maxHp: 50
   attack: 0
-  moveSpeed: 2
+  moveSpeed: 0.8
   attackRange: 0
   attackCooldown: 0
-  detectionRange: 8
   knockbackResistance: 0
-  lootTable:
-    lootTableKey: 
-    dropChance: 0.3

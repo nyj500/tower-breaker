@@ -17,6 +17,7 @@ namespace TowerBreaker.Enemy
 
         [Header("FX")]
         [SerializeField] private GameObject hitVFX;
+        [SerializeField] private AudioClip hitSFX;
 
         // 런타임 스탯
         protected float currentHp;
@@ -98,11 +99,13 @@ namespace TowerBreaker.Enemy
         protected virtual void OnHit()
         {
             PlayHitVFX();
+            Core.SoundManager.Instance?.PlayHitSFX(hitSFX);
         }
 
         protected void Die()
         {
             PlayHitVFX();
+            Core.SoundManager.Instance?.PlayHitSFX(hitSFX);
             rb.linearVelocity = Vector2.zero;
             rb.gravityScale = 0f;
 

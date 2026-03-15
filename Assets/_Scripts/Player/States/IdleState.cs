@@ -8,7 +8,7 @@ namespace TowerBreaker.Player.States
 
         public override void Enter()
         {
-            ctrl.StopMove();
+            if (!ctrl.IsKnockedBack) ctrl.StopMove();
         }
 
         public override void Update()

@@ -30,6 +30,8 @@ namespace TowerBreaker.Player
         public bool IsDead { get; private set; }
         public bool IsFacingRight { get; private set; } = true;
         public bool IsEnemyColliding { get; set; } = false;
+        public bool IsBlocking => StateMachine.CurrentState is BlockState;
+        public bool IsKnockedBack { get; private set; }
 
         private void Awake()
         {
@@ -98,6 +100,34 @@ namespace TowerBreaker.Player
                     StateMachine.ChangeState(StateMachine.Idle);
                 }
             }
+        }
+
+        public void TakeKnockback(Vector2 fromPosition, float force)
+        {
+            if (IsDead || IsBlocking) return;
+            StateMachine.ChangeState(StateMachine.Hit);
+            StartCoroutine(KnockbackRoutine(fromPosition, force));
+        }
+
+        private System.Collections.IEnumerator KnockbackRoutine(Vector2 fromPosition, float force)
+        {
+            IsKnockedBack = true;
+            rb.linearVelocity = Vector2.zero;
+            yield return new WaitForSeconds(0.05f);
+
+            Vector2 dir = ((Vector2)transform.position - fromPosition).normalized;
+            rb.linearVelocity = dir * force;
+
+            float duration = 0.3f;
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                rb.linearVelocity = Vector2.Lerp(dir * force, Vector2.zero, elapsed / duration);
+                yield return null;
+            }
+            rb.linearVelocity = Vector2.zero;
+            IsKnockedBack = false;
         }
 
         public Rigidbody2D Rb => rb;

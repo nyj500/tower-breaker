@@ -128,13 +128,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e46bd343dd3c4b389c62a7ea0633434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Stage.TreasureChest
+  lootTable: {fileID: 11400000, guid: e63da2fc66db44787b004009e8603f73, type: 2}
+  dropSFX: {fileID: 8300000, guid: 8fb38782f82c6465995e6495de7538a5, type: 3}
+  openSFX: {fileID: 8300000, guid: 7a1eb85dc38ca471281a006cc1bc0adb, type: 3}
   startOffsetX: 3
   startOffsetY: 5
   throwForceX: -2
   throwForceY: 2
   gravity: 15
   bounceFactor: 0.3
-  groundOffsetY: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!61 &2164754224999363932
 BoxCollider2D:
   m_ObjectHideFlags: 0

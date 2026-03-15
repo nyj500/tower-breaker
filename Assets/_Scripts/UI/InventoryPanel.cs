@@ -112,6 +112,7 @@ namespace TowerBreaker.UI
             selectedSlot?.Deselect();
             selectedSlot = null;
             RefreshInventorySlots();
+            RefreshEquipmentSlots();
             RefreshTabColors();
         }
 
@@ -138,9 +139,9 @@ namespace TowerBreaker.UI
 
         private void RefreshInventorySlots()
         {
-            List<ItemDataSO> items = PlayerInventory.Instance != null
+            var items = PlayerInventory.Instance != null
                 ? PlayerInventory.Instance.GetItemsByCategory(currentTab)
-                : new List<ItemDataSO>();
+                : new System.Collections.Generic.List<OwnedItem>();
 
             for (int i = 0; i < slots.Length; i++)
             {

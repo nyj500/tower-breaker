@@ -22,6 +22,7 @@ namespace TowerBreaker.Core
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Random.InitState(System.Environment.TickCount);
         }
 
         private void Start()
@@ -31,15 +32,20 @@ namespace TowerBreaker.Core
 
         public void GoToWorld()
         {
-            // TODO: 로비에서 월드맵으로 이동, 월드맵 UI 활성화
-            // TODO: 상태를 Battle로 전환, StageManager.StartStage() 호출
             ChangeState(GameState.Battle);
+            SceneManager.LoadScene("Game");
         }
 
         public void OnPlayerDead()
         {
-            // TODO: 상태를 Result로 전환, 게임오버 UI 표시
             ChangeState(GameState.Result);
+            StartCoroutine(ReturnToLobbyDelayed(2f));
+        }
+
+        private System.Collections.IEnumerator ReturnToLobbyDelayed(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            ReturnToLobby();
         }
 
         public void OnStageClear()

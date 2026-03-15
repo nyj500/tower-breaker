@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6807114516996992724}
   - component: {fileID: -4039487683707820882}
   - component: {fileID: 8421132922906430022}
+  - component: {fileID: 2199374034998830900}
   m_Layer: 7
   m_Name: Boar
   m_TagString: Untagged
@@ -209,6 +210,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Enemy.EnemyTypes.MeleeEnemy
   data: {fileID: 11400000, guid: 0e10199ea79a5408883d3e70a6b00e60, type: 2}
   hitVFX: {fileID: 7461839046948602020}
+  hitSFX: {fileID: 8300000, guid: f17949fb1734f404f9652e75361a83f3, type: 3}
+--- !u!114 &2199374034998830900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8104022795075489229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dd0727dd7ae4d2f9cce4d097c55db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.FeedbackFX.AnimationSoundPlayer
 --- !u!1001 &7111890141126026598
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,15 +8,15 @@ namespace TowerBreaker.Player
     {
         private PlayerState currentState;
 
-        public IdleState Idle   { get; private set; }
+        public IdleState Idle { get; private set; }
         public AttackState Attack { get; private set; }
-        public DashState Dash   { get; private set; }
-        public BlockState Block  { get; private set; }
+        public DashState Dash { get; private set; }
+        public BlockState Block { get; private set; }
         public Skill1State Skill1 { get; private set; }
         public Skill2State Skill2 { get; private set; }
         public Skill3State Skill3 { get; private set; }
-        public HitState Hit    { get; private set; }
-        public DieState Die    { get; private set; }
+        public HitState Hit { get; private set; }
+        public DieState Die { get; private set; }
 
         private void Awake()
         {

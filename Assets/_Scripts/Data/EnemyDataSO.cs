@@ -14,20 +14,8 @@ namespace TowerBreaker.Data
         public float moveSpeed = 2.5f;
         public float attackRange = 1f;
         public float attackCooldown = 1.5f;
-        public float detectionRange = 8f;
 
         [Header("Knockback")]
         public float knockbackResistance = 0f;
-
-        [Header("Drop")]
-        public LootTableReference lootTable;
-    }
-
-    [System.Serializable]
-    public class LootTableReference
-    {
-        // TODO: LootTable ScriptableObject 참조로 교체
-        public string lootTableKey;
-        public float dropChance = 0.3f;
     }
 }

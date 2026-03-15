@@ -1,86 +1,73 @@
-using System.Collections;
 using UnityEngine;
-using TowerBreaker.Enemy;
+using System.Collections;
+using TowerBreaker.Core;
 
 namespace TowerBreaker.Enemy.EnemyTypes
 {
-    /// <summary>
-    /// 보스 2: 소환 + 원거리 연사 패턴.
-    /// Phase 1 - 3발 연사
-    /// Phase 2 - 소환 + 5발 연사
-    /// </summary>
-    public class Boss02 : BossController
+    public class Boss02 : EnemyBase
     {
-        [Header("Boss02 Config")]
+        [Header("Projectile")]
         [SerializeField] private GameObject projectilePrefab;
-        [SerializeField] private GameObject minionPrefab;
-        [SerializeField] private int phase1ShotCount = 3;
-        [SerializeField] private int phase2ShotCount = 5;
-        [SerializeField] private float shotInterval = 0.25f;
-        [SerializeField] private Transform[] summonPoints;
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private float fireInterval = 3f;
+        [SerializeField] private float fireAnimDuration = 0.5f;
 
-        private bool isActing = false;
+        private static readonly int HashAttack = Animator.StringToHash("Attack");
+        private static readonly int HashWalk = Animator.StringToHash("Walk");
 
-        protected override void InitFSM()
+        private float fireTimer;
+        private bool isFiring;
+
+        protected override void InitFSM() { }
+
+        protected override void Start()
         {
-            // TODO: FSM 상태 초기화
+            base.Start();
+            fireTimer = fireInterval;
         }
 
         private void Update()
         {
-            if (isDead || isActing) return;
+            if (isDead || !isActive || isFiring) return;
 
-            if (IsInRange(data.detectionRange))
-                StartCoroutine(PhasePattern());
+            rb.linearVelocity = Vector2.left * data.moveSpeed;
+
+            fireTimer -= Time.deltaTime;
+            if (fireTimer <= 0f)
+            {
+                fireTimer = fireInterval;
+                StartCoroutine(FireRoutine());
+            }
         }
 
-        private IEnumerator PhasePattern()
+        private IEnumerator FireRoutine()
         {
-            isActing = true;
+            isFiring = true;
+            rb.linearVelocity = Vector2.zero;
 
-            if (currentPhase == 1)
-                yield return StartCoroutine(BurstShot(phase1ShotCount));
-            else
-            {
-                yield return StartCoroutine(SummonMinions());
-                yield return StartCoroutine(BurstShot(phase2ShotCount));
-            }
+            animator.SetTrigger(HashAttack);
+            yield return new WaitForSeconds(fireAnimDuration);
 
-            yield return new WaitForSeconds(2f);
-            isActing = false;
-        }
+            FireProjectile();
 
-        private IEnumerator BurstShot(int count)
-        {
-            // TODO: count회 투사체 발사, 각 발사 사이 shotInterval 대기
-            for (int i = 0; i < count; i++)
-            {
-                FireProjectile();
-                yield return new WaitForSeconds(shotInterval);
-            }
+            animator.SetBool(HashWalk, true);
+            isFiring = false;
         }
 
         private void FireProjectile()
         {
-            // TODO: 플레이어 방향으로 projectilePrefab 발사
-        }
+            if (projectilePrefab == null) return;
 
-        private IEnumerator SummonMinions()
-        {
-            // TODO: summonPoints에 minionPrefab 스폰, 소환 연출 재생
-            yield return new WaitForSeconds(0.5f);
-            foreach (var point in summonPoints)
-                Instantiate(minionPrefab, point.position, Quaternion.identity);
-        }
-
-        protected override void EnterNextPhase(int phase)
-        {
-            // TODO: 페이즈 전환 연출
+            Transform spawnPoint = firePoint != null ? firePoint : transform;
+            var obj = Instantiate(projectilePrefab, spawnPoint.position, Quaternion.identity);
+            var proj = obj.GetComponent<BossProjectile>();
+            proj?.Init(Vector2.left);
         }
 
         protected override void OnDeath()
         {
-            // TODO: 사망 연출, 보상 드롭
+            rb.linearVelocity = Vector2.zero;
+            ObjectPoolManager.Instance.Return(PoolPrefab, gameObject);
         }
     }
 }

@@ -10,9 +10,9 @@ namespace TowerBreaker.Combat
         [SerializeField] private GameObject vfxHitHeavy;
 
         [Header("Presets")]
-        [SerializeField] private float lightHitStopDuration = 0.04f;
+        [SerializeField] private float lightHitStopDuration = 0.05f;
         [SerializeField] private float heavyHitStopDuration = 0.1f;
-        [SerializeField] private float lightShakeMagnitude = 0.05f;
+        [SerializeField] private float lightShakeMagnitude = 0.10f;
         [SerializeField] private float heavyShakeMagnitude = 0.15f;
         [SerializeField] private float shakeDuration = 0.2f;
 

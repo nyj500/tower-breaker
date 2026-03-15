@@ -84,13 +84,13 @@ namespace TowerBreaker.Stage
 
         private IEnumerator FloorClearSequence()
         {
-            // 1. 잔여 적 정리
+            // 1. 잔여 적 정리 (이미 죽은 적은 OnDeathAnimationEnd에서 자체 반환)
             foreach (var e in currentFloorEnemies)
             {
                 if (!e.activeSelf) continue;
                 var enemy = e.GetComponent<EnemyBase>();
-                if (enemy != null)
-                    ObjectPoolManager.Instance.Return(enemy.PoolPrefab, e);
+                if (enemy == null || enemy.IsDead) continue;
+                ObjectPoolManager.Instance.Return(enemy.PoolPrefab, e);
             }
             currentFloorEnemies.Clear();
 
@@ -160,7 +160,7 @@ namespace TowerBreaker.Stage
             if (playerTransform != null)
             {
                 var playerPos = playerTransform.position;
-                playerTransform.position = new Vector3(playerPos.x, targetFloorPos.y, playerPos.z);
+                playerTransform.position = new Vector3(-3f, targetFloorPos.y, playerPos.z);
             }
 
             // 카메라 부드럽게 이동

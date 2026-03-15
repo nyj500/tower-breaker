@@ -15,11 +15,7 @@ MonoBehaviour:
   enemyName: Snail
   maxHp: 75
   attack: 0
-  moveSpeed: 2
+  moveSpeed: 1
   attackRange: 0
   attackCooldown: 0
-  detectionRange: 8
   knockbackResistance: 0
-  lootTable:
-    lootTableKey: 
-    dropChance: 0.3
