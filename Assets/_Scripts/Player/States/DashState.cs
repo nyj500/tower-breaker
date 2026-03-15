@@ -2,22 +2,15 @@ using UnityEngine;
 
 namespace TowerBreaker.Player.States
 {
-    public class DashState : IPlayerState
+    public class DashState : PlayerState
     {
-        private readonly PlayerStateMachine fsm;
-        private readonly PlayerController ctrl;
-
         private float dashTimer;
         private const float DashDuration = 0.2f;
         private const float DashDistance = 3f;
 
-        public DashState(PlayerStateMachine fsm, PlayerController ctrl)
-        {
-            this.fsm = fsm;
-            this.ctrl = ctrl;
-        }
+        public DashState(PlayerStateMachine fsm, PlayerController ctrl) : base(fsm, ctrl) { }
 
-        public void Enter()
+        public override void Enter()
         {
             ctrl.DashPressed = false;
             dashTimer = 0f;
@@ -25,20 +18,17 @@ namespace TowerBreaker.Player.States
             ctrl.Anim.PlayDash();
         }
 
-        public void Exit()
+        public override void Exit()
         {
             ctrl.StopMove();
             ctrl.Anim.PlayStop();
         }
 
-        public void Update()
+        public override void Update()
         {
             dashTimer += Time.deltaTime;
-
             if (dashTimer >= DashDuration)
                 fsm.ChangeState(fsm.Idle);
         }
-
-        public void FixedUpdate() { }
     }
 }

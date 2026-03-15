@@ -6,7 +6,7 @@ namespace TowerBreaker.Player
 {
     public class PlayerStateMachine : MonoBehaviour
     {
-        private IPlayerState currentState;
+        private PlayerState currentState;
 
         public IdleState Idle   { get; private set; }
         public AttackState Attack { get; private set; }
@@ -47,14 +47,14 @@ namespace TowerBreaker.Player
             currentState?.FixedUpdate();
         }
 
-        public void ChangeState(IPlayerState newState)
+        public void ChangeState(PlayerState newState)
         {
             currentState?.Exit();
             currentState = newState;
             currentState?.Enter();
         }
 
-        public IPlayerState CurrentState => currentState;
+        public PlayerState CurrentState => currentState;
 
         public Coroutine RunCoroutine(IEnumerator routine)
         {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TowerBreaker.Enemy;
 using TowerBreaker.Combat;
+using TowerBreaker.Stage;
 
 namespace TowerBreaker.Player
 {
@@ -18,10 +19,12 @@ namespace TowerBreaker.Player
         [SerializeField] private HitType type;
 
         private PlayerCombat combat;
+        private HitFeedback feedback;
 
         private void Awake()
         {
             combat = GetComponentInParent<PlayerCombat>();
+            feedback = GetComponentInParent<HitFeedback>();
         }
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -33,18 +36,32 @@ namespace TowerBreaker.Player
             {
                 float multiplier = combat.GetDamageMultiplier(type);
                 enemy.TakeDamage(combat.GetAttackDamage() * multiplier);
+
+                bool isHeavy = type == HitType.Skill1 || type == HitType.Skill2 || type == HitType.Skill3;
+                if (isHeavy)
+                    feedback?.PlayHeavyHit(col.transform.position);
+                else
+                    feedback?.PlayLightHit(col.transform.position);
             }
             else
             {
-                var rb = enemy.GetComponent<Rigidbody2D>();
-                if (rb == null) return;
+                feedback?.PlayLightHit(col.transform.position);
+                KnockbackAllEnemies();
+            }
+        }
 
-                KnockbackHandler.Apply(
-                    rb,
-                    transform.position, // 플레이어 위치 기준
-                    6f,                  // 넉백 힘
-                    1f
-                );
+        private void KnockbackAllEnemies()
+        {
+            var enemies = FloorManager.Instance.GetCurrentFloorEnemies();
+            foreach (var obj in enemies)
+            {
+                var enemy = obj.GetComponent<EnemyBase>();
+                if (enemy == null || enemy.IsDead) continue;
+
+                var rb = enemy.GetComponent<Rigidbody2D>();
+                if (rb == null) continue;
+
+                KnockbackHandler.Apply(this, rb, transform.position, 5f, 0.3f);
             }
         }
     }

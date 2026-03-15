@@ -15,6 +15,9 @@ namespace TowerBreaker.Enemy
         [Header("Data")]
         [SerializeField] public EnemyDataSO data;
 
+        [Header("FX")]
+        [SerializeField] private GameObject hitVFX;
+
         // 런타임 스탯
         protected float currentHp;
         protected bool isDead;
@@ -29,6 +32,7 @@ namespace TowerBreaker.Enemy
             get => getDamaged;
             set => getDamaged = value;
         }
+        public bool IsKnockedBack { get; set; }
 
         public GameObject PoolPrefab { get; set; } // ObjectPoolManager 반환용
 
@@ -44,6 +48,7 @@ namespace TowerBreaker.Enemy
         protected Transform playerTransform;
 
         private static readonly int HashWalk = Animator.StringToHash("Walk");
+        private static readonly int HashDead = Animator.StringToHash("Dead");
 
         protected virtual void Awake()
         {
@@ -61,9 +66,11 @@ namespace TowerBreaker.Enemy
         public virtual void Reset()
         {
             currentHp = data.maxHp;
-            isDead    = false;
-            isActive  = false;
-            FloorManager.Instance?.RegisterEnemy();
+            isDead = false;
+            isActive = false;
+
+            var col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = true;
         }
 
         /// <summary>
@@ -90,20 +97,39 @@ namespace TowerBreaker.Enemy
 
         protected virtual void OnHit()
         {
-            // TODO: Hit 상태 전환, 피격 VFX/SFX 재생
+            PlayHitVFX();
         }
 
         protected void Die()
         {
-            // TODO: Die 상태 전환, 드롭 아이템 스폰, ObjectPool 반환
-            OnDeath();
+            PlayHitVFX();
+            rb.linearVelocity = Vector2.zero;
+            rb.gravityScale = 0f;
+
+            var col = GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
+
+            animator?.SetTrigger(HashDead);
             FloorManager.Instance?.OnEnemyDied();
+        }
+
+        // Dead 애니메이션 마지막 프레임에서 Animation Event로 호출
+        public void OnDeathAnimationEnd()
+        {
+            OnDeath();
         }
 
         /// <summary>
         /// 사망 시 서브클래스별 고유 처리 (드롭, 연출 등).
         /// </summary>
         protected abstract void OnDeath();
+
+        private void PlayHitVFX()
+        {
+            if (hitVFX == null) return;
+            hitVFX.SetActive(false);
+            hitVFX.SetActive(true);
+        }
 
         protected void MoveToward(Vector2 target, float speed)
         {

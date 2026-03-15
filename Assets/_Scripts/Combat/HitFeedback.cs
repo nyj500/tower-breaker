@@ -1,59 +1,50 @@
 using UnityEngine;
 using TowerBreaker.Core;
-using TowerBreaker.FeedbackFX;
 
 namespace TowerBreaker.Combat
 {
     public class HitFeedback : MonoBehaviour
     {
-        [Header("VFX Prefabs")]
+        [Header("VFX Objects (자식으로 달아둔 것)")]
         [SerializeField] private GameObject vfxHitLight;
         [SerializeField] private GameObject vfxHitHeavy;
 
         [Header("Presets")]
-        [SerializeField] private float lightHitStopDuration   = 0.04f;
-        [SerializeField] private float heavyHitStopDuration   = 0.1f;
-        [SerializeField] private float lightShakeMagnitude    = 0.05f;
-        [SerializeField] private float heavyShakeMagnitude    = 0.15f;
-        [SerializeField] private float shakeDuration          = 0.2f;
+        [SerializeField] private float lightHitStopDuration = 0.04f;
+        [SerializeField] private float heavyHitStopDuration = 0.1f;
+        [SerializeField] private float lightShakeMagnitude = 0.05f;
+        [SerializeField] private float heavyShakeMagnitude = 0.15f;
+        [SerializeField] private float shakeDuration = 0.2f;
 
         public void PlayLightHit(Vector3 position)
         {
-            // TODO: 가벼운 타격 피드백 - 짧은 히트스톱, 약한 카메라 흔들림, 타격 VFX
             DoHitStop(lightHitStopDuration);
             DoShake(shakeDuration * 0.5f, lightShakeMagnitude);
-            SpawnVFX(vfxHitLight, position);
+            PlayVFX(vfxHitLight);
         }
 
         public void PlayHeavyHit(Vector3 position)
         {
-            // TODO: 강한 타격 피드백 - 긴 히트스톱, 강한 카메라 흔들림, 타격 VFX
             DoHitStop(heavyHitStopDuration);
             DoShake(shakeDuration, heavyShakeMagnitude);
-            SpawnVFX(vfxHitHeavy, position);
-        }
-
-        public void PlaySkillHit(Vector3 position)
-        {
-            // TODO: 스킬 타격 피드백
+            PlayVFX(vfxHitHeavy);
         }
 
         private void DoHitStop(float duration)
         {
-            // TODO: TimeController.Instance.DoHitStop(duration)
             TimeController.Instance?.DoHitStop(duration);
         }
 
         private void DoShake(float duration, float magnitude)
         {
-            // TODO: CameraShaker.Instance.Shake(duration, magnitude)
             CameraShaker.Instance?.Shake(duration, magnitude);
         }
 
-        private void SpawnVFX(GameObject prefab, Vector3 position)
+        private void PlayVFX(GameObject vfx)
         {
-            if (prefab == null) return;
-            ObjectPoolManager.Instance?.Get(prefab, position, Quaternion.identity);
+            if (vfx == null) return;
+            vfx.SetActive(false);
+            vfx.SetActive(true);
         }
     }
 }

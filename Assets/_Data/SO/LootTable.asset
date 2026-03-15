@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ff9a1497691481e941d7389978dae6, type: 3}
+  m_Name: LootTable
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBreaker.Equipment.LootTable
+  entries:
+  - item: {fileID: 11400000, guid: dfd30ac498bac40e6bb88e3777555a59, type: 2}
+    weight: 1
+  - item: {fileID: 11400000, guid: c1794d6a0e91a464e9e3190f40b12970, type: 2}
+    weight: 1
+  - item: {fileID: 11400000, guid: 0575f48328bd441da95d05f0e7a1d01e, type: 2}
+    weight: 1
+  - item: {fileID: 11400000, guid: 87ebdae1047f14d1f967824de94e475a, type: 2}
+    weight: 1

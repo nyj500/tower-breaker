@@ -3,8 +3,6 @@ using TowerBreaker.Data;
 using TowerBreaker.Core;
 using TowerBreaker.Enemy;
 using TowerBreaker.Player.States;
-using System;
-
 namespace TowerBreaker.Player
 {
     public class PlayerController : MonoBehaviour
@@ -100,11 +98,6 @@ namespace TowerBreaker.Player
                     StateMachine.ChangeState(StateMachine.Idle);
                 }
             }
-        }
-
-        internal void DashMove(object dashDistance, object duration)
-        {
-            throw new NotImplementedException();
         }
 
         public Rigidbody2D Rb => rb;

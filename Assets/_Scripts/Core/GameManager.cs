@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TowerBreaker.UI;
 
 namespace TowerBreaker.Core
@@ -48,8 +49,8 @@ namespace TowerBreaker.Core
 
         public void ReturnToLobby()
         {
-            // TODO: 씬 재로드 또는 상태 초기화 후 Lobby로 전환
             ChangeState(GameState.Lobby);
+            SceneManager.LoadScene("Main");
         }
 
         private void ChangeState(GameState newState)

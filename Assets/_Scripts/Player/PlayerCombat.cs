@@ -1,34 +1,25 @@
 using UnityEngine;
-using System.Collections.Generic;
 using TowerBreaker.Data;
 using TowerBreaker.Equipment;
-using TowerBreaker.Enemy;
-using TowerBreaker.Player.States;
+using TowerBreaker.Combat;
 
 namespace TowerBreaker.Player
 {
     public class PlayerCombat : MonoBehaviour
     {
-        [Header("Hitboxes")]
-        [SerializeField]
-        private BoxCollider2D attackHitBox;
-        [SerializeField]
-        private BoxCollider2D skill1HitBox;
-        [SerializeField]
-        private BoxCollider2D skill2HitBox;
-        [SerializeField]
-        private BoxCollider2D skill3HitBox;
-        [SerializeField] 
-        private BoxCollider2D blockHitBox;
+        [Header("Skill3 Projectile")]
+        [SerializeField] private Projectile projectilePrefab;
+        [SerializeField] private Transform firePoint;
 
         private PlayerController controller;
         private InventoryManager inventory;
-        private List<Collider2D> results = new();
+        private HitFeedback feedback;
 
         private void Awake()
         {
             controller = GetComponent<PlayerController>();
             inventory = GetComponent<InventoryManager>();
+            feedback = GetComponent<HitFeedback>();
         }
 
         public float GetAttackDamage()
@@ -39,37 +30,12 @@ namespace TowerBreaker.Player
             return baseDmg * multiplier;
         }
 
-        private BoxCollider2D GetHitBox(IPlayerState state)
+        public void FireProjectile()
         {
-            switch (state)
-            {
-                case AttackState:
-                    return attackHitBox;
-
-                case Skill1State:
-                    return skill1HitBox;
-
-                case Skill2State:
-                    return skill2HitBox;
-
-                case Skill3State:
-                    return skill3HitBox;
-                case BlockState:
-                    return blockHitBox;
-
-                default:
-                    return null;
-            }
-        }
-
-        public void EnableHitBox(IPlayerState state)
-        {
-            GetHitBox(state).enabled = true;
-        }
-
-        public void DisableHitBox(IPlayerState state)
-        {
-            GetHitBox(state).enabled = false;
+            if (projectilePrefab == null) return;
+            var obj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            float damage = GetAttackDamage() * GetDamageMultiplier(HitBox.HitType.Skill3);
+            obj.Init(damage, controller.IsFacingRight, feedback);
         }
 
         public float GetDamageMultiplier(HitBox.HitType type)

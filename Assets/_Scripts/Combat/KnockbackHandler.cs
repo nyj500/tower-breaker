@@ -1,37 +1,43 @@
 using UnityEngine;
+using System.Collections;
 
 namespace TowerBreaker.Combat
 {
-    public class KnockbackHandler : MonoBehaviour
+    public static class KnockbackHandler
     {
-        /// <summary>
-        /// 대상 Rigidbody2D에 넉백 힘을 적용한다.
-        /// </summary>
-        /// <param name="targetRb">넉백 받을 오브젝트의 Rigidbody2D</param>
-        /// <param name="source">힘의 발원 위치</param>
-        /// <param name="force">넉백 강도</param>
-        /// <param name="resistance">넉백 저항 (0=완전저항, 1=그대로 적용)</param>
-        public static void Apply(Rigidbody2D targetRb, Vector2 source, float force, float resistance = 1f)
+        public static void Apply(MonoBehaviour runner, Rigidbody2D targetRb, Vector2 source, float force, float duration = 0.3f)
         {
-            // TODO: 저항값 적용하여 실제 힘 계산
             if (targetRb == null) return;
+            if (force <= 0f) return;
 
-            float actualForce = force * resistance;
-            if (actualForce <= 0f) return;
-
-            Vector2 dir = ((Vector2)targetRb.transform.position - source).normalized;
-            targetRb.AddForce(dir * actualForce, ForceMode2D.Impulse);
+            runner.StartCoroutine(KnockbackRoutine(targetRb, source, force, duration));
         }
 
-        /// <summary>
-        /// 일정 시간 후 속도를 0으로 리셋한다.
-        /// </summary>
-        public static System.Collections.IEnumerator ResetVelocity(Rigidbody2D rb, float delay)
+        static IEnumerator KnockbackRoutine(Rigidbody2D rb, Vector2 source, float force, float duration)
         {
-            // TODO: 넉백 후 자연스러운 감속이 필요하면 linearDamping 대신 사용
-            yield return new WaitForSeconds(delay);
-            if (rb != null)
-                rb.linearVelocity = Vector2.zero;
+            var enemy = rb.GetComponent<Enemy.EnemyBase>();
+
+            // 히트스탑 (잠깐 멈추는 연출)
+            if (enemy != null) enemy.IsKnockedBack = true;
+            rb.linearVelocity = Vector2.zero;
+            yield return new WaitForSeconds(0.05f);
+
+            // 넉백 방향 계산 (source → target)
+            Vector2 dir = ((Vector2)rb.transform.position - source).normalized;
+            rb.linearVelocity = dir * force;
+
+            // 감속
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+                rb.linearVelocity = Vector2.Lerp(dir * force, Vector2.zero, t * t);
+                yield return null;
+            }
+
+            rb.linearVelocity = Vector2.zero;
+            if (enemy != null) enemy.IsKnockedBack = false;
         }
     }
 }

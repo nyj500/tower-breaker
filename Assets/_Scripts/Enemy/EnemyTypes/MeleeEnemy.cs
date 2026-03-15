@@ -12,7 +12,7 @@ namespace TowerBreaker.Enemy.EnemyTypes
 
         private void Update()
         {
-            if (isDead || !isActive) return;
+            if (isDead || !isActive || IsKnockedBack) return;
 
             rb.linearVelocity = Vector2.left * data.moveSpeed;
         }
@@ -20,6 +20,7 @@ namespace TowerBreaker.Enemy.EnemyTypes
         protected override void OnDeath()
         {
             rb.linearVelocity = Vector2.zero;
+            
             ObjectPoolManager.Instance.Return(PoolPrefab, gameObject);
         }
     }
