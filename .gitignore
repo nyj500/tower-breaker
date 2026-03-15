@@ -29,9 +29,19 @@ crashlytics-build.properties
 .idea/
 *.csproj
 *.sln
+*.slnx
 *.suo
 *.user
 *.userprefs
+
+# VSCode
+.vscode/
+
+# Claude Code
+.claude/
+
+# Crash reports
+mono_crash.*
 
 # OS generated
 .DS_Store
